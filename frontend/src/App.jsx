@@ -1,5 +1,5 @@
 // App.jsx
-// heading.
+//  heading.
 
 function App() {
   return <h1>Hunter's FoundIt</h1>;
