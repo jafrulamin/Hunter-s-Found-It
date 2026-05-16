@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* A few simple resets and a default font. */
+/*  resets and a default font. */
 * {
   box-sizing: border-box;
   margin: 0;
