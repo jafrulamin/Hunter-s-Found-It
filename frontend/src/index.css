@@ -1,1 +1,20 @@
-/* index.css — global styles will go here later. */
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* A few simple resets and a default font. */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: #f8fafc; /* very light gray background like the original */
+}
