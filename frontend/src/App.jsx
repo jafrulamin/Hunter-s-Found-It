@@ -1,5 +1,5 @@
 // App.jsx
-// The very first version of our app — just a heading.
+// heading.
 
 function App() {
   return <h1>Hunter's FoundIt</h1>;
