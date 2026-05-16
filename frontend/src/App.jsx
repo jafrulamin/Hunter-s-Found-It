@@ -1,6 +1,4 @@
 
-// Wraps the app in a BrowserRouter so we can add page routes.
-
 import { BrowserRouter, Routes } from "react-router";
 
 function App() {

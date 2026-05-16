@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/*  resets and a default font. */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,5 +16,5 @@ html,
 body,
 #root {
   min-height: 100%;
-  background: #f8fafc; /* very light gray background like the original */
+  background: #f8fafc; 
 }

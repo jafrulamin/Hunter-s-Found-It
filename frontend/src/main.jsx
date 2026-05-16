@@ -1,4 +1,3 @@
-// main.jsx
 
 
 import { StrictMode } from "react";
