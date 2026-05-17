@@ -1,5 +1,4 @@
 // api.js
-// helper for talking to the backend.
 // We keep one function: apiFetch(url, options).
 // It adds the JWT token (if we have one) and parses the JSON response.
 
