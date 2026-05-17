@@ -1,5 +1,5 @@
 // AuthContext.jsx
-// A simple React Context that keeps track of the logged-in user across the app.
+// React Context that keeps track of the logged-in user across the app.
 // Components can call useContext(AuthContext) to read the user, or call
 // login() / register() / logout() to change it.
 

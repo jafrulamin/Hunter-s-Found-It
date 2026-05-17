@@ -1,14 +1,15 @@
 
-import { BrowserRouter, Routes } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthProvider } from "./context/AuthContext";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <h1>Hunter's FoundIt</h1>
-        {/* No routes yet — pages will be added in upcoming phases */}
-        <Routes></Routes>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+        </Routes>
       </BrowserRouter>
     </AuthProvider>
   );
