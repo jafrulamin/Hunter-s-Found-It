@@ -17,19 +17,33 @@ export function AuthProvider({ children }) {
   // The JWT token (or null)
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  // While we check the token at startup, we want to show a loading state.
-  // For now we just hydrate the saved token from localStorage. A proper
-  // "ask the backend who am I?" check will be added once /api/auth/me exists.
+  // While we check the token at startup, we want to show a loading state
   const [loading, setLoading] = useState(true);
 
+  // When the app first loads, if there's a token in localStorage, ask the
+  // backend "who am I?" to make sure the token is still valid. If yes we
+  // know the user and stay logged in. If no we throw the bad token away.
   useEffect(() => {
-    // Just check that there's a saved token. We don't have a /me endpoint yet,
-    // so we treat the presence of a token as "logged in" until we add it.
-    const savedToken = localStorage.getItem("token");
-    if (savedToken) {
-      setToken(savedToken);
+    async function checkToken() {
+      const savedToken = localStorage.getItem("token");
+      if (!savedToken) {
+        setLoading(false);
+        return;
+      }
+      try {
+        const me = await apiFetch("/api/auth/me");
+        setUser(me);
+        setToken(savedToken);
+      } catch (e) {
+        // Token is invalid or expired — clear it
+        localStorage.removeItem("token");
+        setUser(null);
+        setToken(null);
+      } finally {
+        setLoading(false);
+      }
     }
-    setLoading(false);
+    checkToken();
   }, []);
 
   // Log in with email and password.
@@ -58,7 +72,7 @@ export function AuthProvider({ children }) {
     return data.user;
   }
 
-  // Log out — just throw away the token and clear the user
+  // Log out 
   function logout() {
     localStorage.removeItem("token");
     setToken(null);
