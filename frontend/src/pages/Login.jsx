@@ -6,25 +6,25 @@ import { useNavigate, Link } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
-  
+  // Form state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  
+  // UI state
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  
+  // Get the login function from the context
   const { login } = useContext(AuthContext);
 
-  
+  // Called when the form is submitted
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
-   
+    // Simple front-end check
     if (!email || !password) {
       setError("Please fill in both email and password.");
       return;
