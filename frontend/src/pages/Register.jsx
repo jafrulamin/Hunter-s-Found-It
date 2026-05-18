@@ -25,7 +25,7 @@ export default function Register() {
     e.preventDefault();
     setError("");
 
-    //  validation
+    // Simple validation
     if (!name || !email || !password || !confirm) {
       setError("Please fill in all fields.");
       return;
@@ -42,7 +42,7 @@ export default function Register() {
     setLoading(true);
     try {
       await register(name.trim(), email.trim(), password);
-      navigate("/"); 
+      navigate("/"); // success — go to the feed
     } catch (err) {
       setError(err.message || "Registration failed.");
     } finally {
