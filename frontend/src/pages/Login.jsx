@@ -1,5 +1,4 @@
-// Login.jsx
-// The login page. Shows email + password fields and a submit button.
+
 
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router";

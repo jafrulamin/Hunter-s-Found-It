@@ -1,10 +1,9 @@
-// App.jsx
-// Wraps the app in <AuthProvider> and a <BrowserRouter>, with the Header
-// shown on every page above the routes.
+
 
 import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/Header";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -14,6 +13,7 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
