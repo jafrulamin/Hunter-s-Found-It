@@ -1,5 +1,5 @@
 // AuthContext.jsx
-// React Context that keeps track of the logged-in user across the app.
+// A simple React Context that keeps track of the logged-in user across the app.
 // Components can call useContext(AuthContext) to read the user, or call
 // login() / register() / logout() to change it.
 
@@ -20,9 +20,7 @@ export function AuthProvider({ children }) {
   // While we check the token at startup, we want to show a loading state
   const [loading, setLoading] = useState(true);
 
-  // When the app first loads, if there's a token in localStorage, ask the
-  // backend "who am I?" to make sure the token is still valid. If yes we
-  // know the user and stay logged in. If no we throw the bad token away.
+  
   useEffect(() => {
     async function checkToken() {
       const savedToken = localStorage.getItem("token");
@@ -72,7 +70,7 @@ export function AuthProvider({ children }) {
     return data.user;
   }
 
-  // Log out 
+  // Log out — just throw away the token and clear the user
   function logout() {
     localStorage.removeItem("token");
     setToken(null);
