@@ -27,6 +27,3 @@ mongoose
   .catch(function (err) {
     console.log("MongoDB connection error:", err.message);
   });
-
-
-  //
