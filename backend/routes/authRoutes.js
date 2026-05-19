@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const auth = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -82,6 +83,23 @@ router.post("/login", async function (req, res) {
     });
   } catch (err) {
     console.log("login error:", err.message);
+    return res.status(500).json({ message: "Server error" });
+  }
+});
+
+router.get("/me", auth, async function (req, res) {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (err) {
+    console.log("me error:", err.message);
     return res.status(500).json({ message: "Server error" });
   }
 });
