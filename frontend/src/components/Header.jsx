@@ -1,8 +1,10 @@
-// Header.jsx
+
 // The sticky bar at the top of every page.
 // Shows the "FoundIt" logo on the left and auth buttons on the right.
 
+
 import { useContext } from "react";
+
 import { useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
