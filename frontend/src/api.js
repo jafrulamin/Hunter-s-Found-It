@@ -1,4 +1,11 @@
+// api.js
+// A tiny helper for talking to the backend.
+// We keep one function: apiFetch(url, options).
+// It adds the JWT token (if we have one) and parses the JSON response.
 
+// In development this is empty so the Vite proxy forwards "/api/..." to
+// http://localhost:5000. In production we set VITE_API_URL to the full
+// backend URL (for example, https://hunters-foundit-backend.onrender.com).
 const BASE_URL = import.meta.env.VITE_API_URL || "";
 
 async function apiFetch(url, options) {
