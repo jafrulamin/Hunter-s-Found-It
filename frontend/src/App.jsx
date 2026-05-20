@@ -1,4 +1,6 @@
-
+// App.jsx
+// Wraps the app in <AuthProvider> and a <BrowserRouter>, with the Header
+// shown on every page above the routes.
 
 import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthProvider } from "./context/AuthContext";

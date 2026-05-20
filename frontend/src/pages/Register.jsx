@@ -1,4 +1,5 @@
-
+// Register.jsx
+// The signup page. Collects name, email, password, and a confirmation password.
 
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router";
