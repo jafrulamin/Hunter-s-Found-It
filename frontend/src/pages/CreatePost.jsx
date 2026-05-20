@@ -96,13 +96,13 @@ export default function CreatePost() {
 
     setSubmitting(true);
     try {
-      
+      // Step 1: if there's an image, upload it first and get the URL back
       let imageUrl = "";
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
 
-      
+      // Step 2: create the post with the image URL (if any)
       await apiFetch("/api/posts", {
         method: "POST",
         body: JSON.stringify({
@@ -115,7 +115,7 @@ export default function CreatePost() {
         }),
       });
 
-      
+      // Success — go back to the feed
       navigate("/");
     } catch (err) {
       setError(err.message || "Failed to create post.");
