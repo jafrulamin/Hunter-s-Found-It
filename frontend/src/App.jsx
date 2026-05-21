@@ -1,6 +1,6 @@
 // App.jsx
-// Wraps the app in <AuthProvider> and a <BrowserRouter>, with the Header
-// shown on every page above the routes.
+// The top-level component. Sets up the AuthProvider, the router, the header,
+// and the routes for each page.
 
 import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthProvider } from "./context/AuthContext";
