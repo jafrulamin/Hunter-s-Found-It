@@ -1,7 +1,3 @@
-# Render.com blueprint for the backend web service.
-# After connecting your GitHub repo to Render you can use this file to set up
-# the service automatically. The env vars marked sync:false must be entered
-# in the Render dashboard so they aren't kept in source control.
 
 services:
   - type: web
