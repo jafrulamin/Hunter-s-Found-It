@@ -1,7 +1,6 @@
 // Profile.jsx
 // The user's profile page. Shows the user's name and email, and lists all
-// their own posts. Lets them delete or mark posts resolved. (Edit link
-// is added in the next phase.)
+// their own posts. Lets them edit, delete, or mark posts resolved.
 
 import { useEffect, useState, useMemo, useContext } from "react";
 import { useNavigate, Link } from "react-router";
@@ -273,7 +272,7 @@ export default function Profile() {
                   </div>
                 )}
 
-                {/* Title + badges */}
+                {/* Title + badges + actions */}
                 <div className="flex justify-between items-start mb-1.5 gap-2">
                   <h3 className="font-bold text-base leading-snug">
                     {post.title}
@@ -308,12 +307,18 @@ export default function Profile() {
                   {post.description}
                 </p>
 
-                {/* Footer: time + resolve / delete */}
+                {/* Footer: time + edit / resolve / delete */}
                 <div className="flex justify-between items-center gap-2 flex-wrap">
                   <span className="text-xs text-gray-500">
                     {timeAgo(post.createdAt)}
                   </span>
                   <div className="flex items-center gap-2">
+                    <Link
+                      to={"/edit-post/" + post._id}
+                      className="text-sm text-blue-600 hover:underline"
+                    >
+                      Edit
+                    </Link>
                     <button
                       onClick={() => handleToggleResolved(post)}
                       disabled={isBusy}
