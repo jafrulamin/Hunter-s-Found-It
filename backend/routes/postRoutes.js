@@ -15,7 +15,6 @@ router.get("/", async function (req, res) {
   }
 });
 
-// Must come BEFORE the "/:id" route so Express doesn't treat "user" as a post id.
 router.get("/user/me", auth, async function (req, res) {
   try {
     const posts = await Post.find({ userId: req.user.id }).sort({

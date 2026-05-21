@@ -1,7 +1,3 @@
-// App.jsx
-// The top-level component. Sets up the AuthProvider, the router, the header,
-// and the routes for each page.
-
 import { BrowserRouter, Routes, Route } from "react-router";
 import { AuthProvider } from "./context/AuthContext";
 import Header from "./components/Header";

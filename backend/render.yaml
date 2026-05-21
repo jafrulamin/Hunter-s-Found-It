@@ -3,7 +3,7 @@ services:
   - type: web
     name: hunters-foundit-backend
     runtime: node
-    rootDir: server
+    rootDir: backend
     buildCommand: npm install
     startCommand: node server.js
     envVars:

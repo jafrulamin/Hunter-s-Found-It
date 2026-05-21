@@ -1,14 +1,8 @@
-// Profile.jsx
-// The user's profile page. Shows the user's name and email, and lists all
-// their own posts. Lets them edit, delete, or mark posts resolved.
-
 import { useEffect, useState, useMemo, useContext } from "react";
 import { useNavigate, Link } from "react-router";
 import apiFetch from "../api";
 import { AuthContext } from "../context/AuthContext";
 
-// Same helpers as Home.jsx — kept simple and copied here so each page is
-// readable on its own.
 function initials(name) {
   if (!name) return "?";
   const parts = name.trim().split(" ");
@@ -51,16 +45,14 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState(null);
-  const [segment, setSegment] = useState("all"); // "all" | "active" | "resolved"
+  const [segment, setSegment] = useState("all");
 
-  // If not logged in, kick them to the login page
   useEffect(() => {
     if (!authLoading && !user) {
       navigate("/login");
     }
   }, [authLoading, user, navigate]);
 
-  // Load this user's posts whenever the user is known
   useEffect(() => {
     async function load() {
       if (!user) return;
@@ -78,7 +70,6 @@ export default function Profile() {
     load();
   }, [user]);
 
-  // Counts for the segmented control
   const counts = useMemo(() => {
     return {
       all: posts.length,
@@ -87,7 +78,6 @@ export default function Profile() {
     };
   }, [posts]);
 
-  // Apply the segment filter
   const filtered = useMemo(() => {
     if (segment === "active") return posts.filter((p) => !p.resolved);
     if (segment === "resolved") return posts.filter((p) => p.resolved);
@@ -138,7 +128,6 @@ export default function Profile() {
     }
   }
 
-  // Show a simple loading line while we figure out auth
   if (authLoading || !user) {
     return (
       <div className="max-w-6xl mx-auto p-6 text-sm text-gray-500">
@@ -149,7 +138,6 @@ export default function Profile() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
-      {/* Profile header */}
       <div className="flex items-center gap-4 mb-6">
         <div className="w-16 h-16 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xl font-bold">
           {initials(user.name)}
@@ -162,7 +150,6 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* My posts heading */}
       <div className="mb-2">
         <h2 className="text-xl font-bold tracking-tight">My Posts</h2>
         <p className="text-sm text-gray-500">
@@ -170,7 +157,6 @@ export default function Profile() {
         </p>
       </div>
 
-      {/* Segmented control: All / Active / Resolved */}
       <div className="mb-6">
         <div className="flex bg-gray-100 rounded-full p-1">
           <button
@@ -209,14 +195,12 @@ export default function Profile() {
         </div>
       </div>
 
-      {/* Error message */}
       {error && (
         <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-md text-sm">
           {error}
         </div>
       )}
 
-      {/* Loading skeletons */}
       {loading ? (
         <div className="columns-1 sm:columns-2 gap-6">
           {[0, 1, 2, 3].map((i) => (
@@ -272,7 +256,6 @@ export default function Profile() {
                   </div>
                 )}
 
-                {/* Title + badges + actions */}
                 <div className="flex justify-between items-start mb-1.5 gap-2">
                   <h3 className="font-bold text-base leading-snug">
                     {post.title}
@@ -294,7 +277,6 @@ export default function Profile() {
                   </div>
                 </div>
 
-                {/* Location */}
                 {post.location && (
                   <div className="flex items-center gap-1 text-xs text-gray-500 mb-1">
                     <span>📍</span>
@@ -302,12 +284,10 @@ export default function Profile() {
                   </div>
                 )}
 
-                {/* Description */}
                 <p className="text-sm text-gray-700 mt-2 mb-3 line-clamp-3">
                   {post.description}
                 </p>
 
-                {/* Footer: time + edit / resolve / delete */}
                 <div className="flex justify-between items-center gap-2 flex-wrap">
                   <span className="text-xs text-gray-500">
                     {timeAgo(post.createdAt)}

@@ -28,7 +28,6 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
 
-  // Denormalized from User so the feed doesn't have to join on every render.
   userName: {
     type: String,
     required: true,

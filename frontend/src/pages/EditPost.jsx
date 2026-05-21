@@ -1,7 +1,3 @@
-// EditPost.jsx
-// Lets the owner of a post edit its fields. Loads the post by id from the URL,
-// pre-fills the form, and PATCHes /api/posts/:id on submit.
-
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams, Link } from "react-router";
 import apiFetch from "../api";
@@ -9,29 +5,25 @@ import { AuthContext } from "../context/AuthContext";
 
 export default function EditPost() {
   const navigate = useNavigate();
-  const { id } = useParams(); // post id from the URL
+  const { id } = useParams();
   const { user, loading: authLoading } = useContext(AuthContext);
 
-  // Form state
   const [type, setType] = useState("lost");
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [resolved, setResolved] = useState(false);
 
-  // UI state
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // Redirect if not signed in (after auth has finished loading)
   useEffect(() => {
     if (!authLoading && !user) {
       navigate("/login");
     }
   }, [authLoading, user, navigate]);
 
-  // Load the post by id and pre-fill the form
   useEffect(() => {
     async function load() {
       setLoading(true);
@@ -44,7 +36,6 @@ export default function EditPost() {
         setDescription(post.description || "");
         setResolved(!!post.resolved);
 
-        // Make sure the logged-in user owns this post — if not, send them home
         if (user && post.userId !== user.id) {
           setError("You can only edit your own posts.");
         }
@@ -97,7 +88,7 @@ export default function EditPost() {
     );
   }
 
-  if (!user) return null; // redirect is happening
+  if (!user) return null;
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
@@ -124,7 +115,6 @@ export default function EditPost() {
         onSubmit={handleSubmit}
         className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4"
       >
-        {/* Lost / Found toggle */}
         <div className="flex bg-gray-100 rounded-full p-1 max-w-xs">
           <button
             type="button"
@@ -152,7 +142,6 @@ export default function EditPost() {
           </button>
         </div>
 
-        {/* Title */}
         <label className="block">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Title <span className="text-red-500">*</span>
@@ -166,7 +155,6 @@ export default function EditPost() {
           />
         </label>
 
-        {/* Location */}
         <label className="block">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Location
@@ -179,7 +167,6 @@ export default function EditPost() {
           />
         </label>
 
-        {/* Description */}
         <label className="block">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Description <span className="text-red-500">*</span>
@@ -193,7 +180,6 @@ export default function EditPost() {
           />
         </label>
 
-        {/* Resolved toggle */}
         <label className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -204,7 +190,6 @@ export default function EditPost() {
           <span className="text-sm text-gray-700">Mark as resolved</span>
         </label>
 
-        {/* Buttons */}
         <div className="flex justify-end gap-2 pt-2">
           <button
             type="button"

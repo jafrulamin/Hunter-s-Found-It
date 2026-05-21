@@ -1,17 +1,10 @@
-// CreatePost.jsx
-// Form for creating a new lost/found post. Lets users optionally upload one image.
-
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router";
 import apiFetch from "../api";
 import { AuthContext } from "../context/AuthContext";
 
-// 5 MB max file size on the client side
 const MAX_BYTES = 5 * 1024 * 1024;
 
-// Helper to upload an image file to /api/upload.
-// We can't use apiFetch here because apiFetch sets Content-Type: application/json,
-// and FormData needs the browser to set its own multipart Content-Type.
 async function uploadImage(file) {
   const token = localStorage.getItem("token");
 
@@ -39,22 +32,18 @@ export default function CreatePost() {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useContext(AuthContext);
 
-  // Form state
   const [type, setType] = useState("lost");
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [anonymous, setAnonymous] = useState(false);
 
-  // Image state
   const [imageFile, setImageFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
 
-  // UI state
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // When the user picks a file, validate it and show a preview
   function handleFileChange(e) {
     setError("");
     const file = e.target.files && e.target.files[0];
@@ -96,13 +85,11 @@ export default function CreatePost() {
 
     setSubmitting(true);
     try {
-      // Step 1: if there's an image, upload it first and get the URL back
       let imageUrl = "";
       if (imageFile) {
         imageUrl = await uploadImage(imageFile);
       }
 
-      // Step 2: create the post with the image URL (if any)
       await apiFetch("/api/posts", {
         method: "POST",
         body: JSON.stringify({
@@ -115,7 +102,6 @@ export default function CreatePost() {
         }),
       });
 
-      // Success — go back to the feed
       navigate("/");
     } catch (err) {
       setError(err.message || "Failed to create post.");
@@ -123,7 +109,6 @@ export default function CreatePost() {
     }
   }
 
-  // If we're still figuring out who the user is, show a simple loading line
   if (authLoading) {
     return (
       <div className="max-w-3xl mx-auto p-6 text-sm text-gray-500">
@@ -132,7 +117,6 @@ export default function CreatePost() {
     );
   }
 
-  // If the user is not logged in, prompt them to sign in
   if (!user) {
     return (
       <div className="max-w-3xl mx-auto p-6">
@@ -180,7 +164,6 @@ export default function CreatePost() {
         onSubmit={handleSubmit}
         className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4"
       >
-        {/* Lost / Found toggle */}
         <div className="flex bg-gray-100 rounded-full p-1 max-w-xs">
           <button
             type="button"
@@ -208,7 +191,6 @@ export default function CreatePost() {
           </button>
         </div>
 
-        {/* Title */}
         <label className="block">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Title <span className="text-red-500">*</span>
@@ -223,7 +205,6 @@ export default function CreatePost() {
           />
         </label>
 
-        {/* Location */}
         <label className="block">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Location
@@ -237,7 +218,6 @@ export default function CreatePost() {
           />
         </label>
 
-        {/* Description */}
         <label className="block">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Description <span className="text-red-500">*</span>
@@ -252,7 +232,6 @@ export default function CreatePost() {
           />
         </label>
 
-        {/* Anonymous toggle */}
         <label className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -263,7 +242,6 @@ export default function CreatePost() {
           <span className="text-sm text-gray-700">Post anonymously</span>
         </label>
 
-        {/* Image picker */}
         <div>
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Photo (optional)
@@ -283,7 +261,6 @@ export default function CreatePost() {
           </p>
         </div>
 
-        {/* Image preview */}
         {previewUrl && (
           <div className="border border-gray-200 rounded-md p-3">
             <div className="flex justify-between items-center mb-2">
@@ -308,7 +285,6 @@ export default function CreatePost() {
           </div>
         )}
 
-        {/* Buttons */}
         <div className="flex justify-end gap-2 pt-2">
           <button
             type="button"

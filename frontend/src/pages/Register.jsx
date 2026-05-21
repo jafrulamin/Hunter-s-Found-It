@@ -1,31 +1,22 @@
-// Register.jsx
-// The signup page. Collects name, email, password, and a confirmation password.
-
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 
 export default function Register() {
-  // Form state
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-
-  // UI state
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
-  // Get the register function from the context
   const { register } = useContext(AuthContext);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
-    // Simple validation
     if (!name || !email || !password || !confirm) {
       setError("Please fill in all fields.");
       return;
@@ -42,7 +33,7 @@ export default function Register() {
     setLoading(true);
     try {
       await register(name.trim(), email.trim(), password);
-      navigate("/"); // success — go to the feed
+      navigate("/");
     } catch (err) {
       setError(err.message || "Registration failed.");
     } finally {
@@ -66,7 +57,6 @@ export default function Register() {
           </div>
         )}
 
-        {/* Name */}
         <label className="block mb-3">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Display name
@@ -81,7 +71,6 @@ export default function Register() {
           />
         </label>
 
-        {/* Email */}
         <label className="block mb-3">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Email
@@ -97,7 +86,6 @@ export default function Register() {
           />
         </label>
 
-        {/* Password */}
         <label className="block mb-3">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Password
@@ -113,7 +101,6 @@ export default function Register() {
           />
         </label>
 
-        {/* Confirm password */}
         <label className="block mb-4">
           <span className="block text-sm font-medium text-gray-700 mb-1">
             Confirm password
