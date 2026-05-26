@@ -36,7 +36,6 @@ export default function CreatePost() {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [anonymous, setAnonymous] = useState(false);
 
   const [imageFile, setImageFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState("");
@@ -97,7 +96,6 @@ export default function CreatePost() {
           title: title.trim(),
           description: description.trim(),
           location: location.trim(),
-          anonymous: anonymous,
           imageUrl: imageUrl,
         }),
       });
@@ -230,16 +228,6 @@ export default function CreatePost() {
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
-        </label>
-
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={anonymous}
-            onChange={(e) => setAnonymous(e.target.checked)}
-            className="h-4 w-4 text-blue-600"
-          />
-          <span className="text-sm text-gray-700">Post anonymously</span>
         </label>
 
         <div>

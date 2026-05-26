@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import CreatePost from "./pages/CreatePost";
 import Profile from "./pages/Profile";
 import EditPost from "./pages/EditPost";
+import PostDetail from "./pages/PostDetail";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/edit-post/:id" element={<EditPost />} />
+          <Route path="/post/:id" element={<PostDetail />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

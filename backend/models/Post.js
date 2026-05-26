@@ -33,11 +33,6 @@ const postSchema = new mongoose.Schema({
     required: true,
   },
 
-  anonymous: {
-    type: Boolean,
-    default: false,
-  },
-
   resolved: {
     type: Boolean,
     default: false,

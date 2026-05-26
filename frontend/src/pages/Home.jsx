@@ -2,40 +2,7 @@ import { useEffect, useState, useContext, useMemo } from "react";
 import { useNavigate } from "react-router";
 import apiFetch from "../api";
 import { AuthContext } from "../context/AuthContext";
-
-function initials(name) {
-  if (!name) return "?";
-  const parts = name.trim().split(" ");
-  if (!parts[0]) return "?";
-  const first = parts[0][0] || "";
-  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
-  return (first + last).toUpperCase();
-}
-
-function timeAgo(createdAt) {
-  if (!createdAt) return "";
-  const ms = new Date(createdAt).getTime();
-  const diff = Date.now() - ms;
-  if (diff < 60000) return "just now";
-  const minutes = Math.floor(diff / 60000);
-  if (minutes < 60) return minutes + "m ago";
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return hours + "h ago";
-  const days = Math.floor(hours / 24);
-  if (days < 7) return days + "d ago";
-  const weeks = Math.floor(days / 7);
-  if (weeks < 5) return weeks + "w ago";
-  const months = Math.floor(days / 30);
-  if (months < 12) return months + "mo ago";
-  const years = Math.floor(days / 365);
-  return years + "y ago";
-}
-
-function cloudinaryThumb(url) {
-  if (!url) return "";
-  if (url.indexOf("/upload/") === -1) return url;
-  return url.replace("/upload/", "/upload/f_auto,q_auto,c_fill,w_900,h_500/");
-}
+import { initials, timeAgo, cloudinaryThumb } from "../utils";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -113,9 +80,7 @@ export default function Home() {
   }
 
   async function handleDelete(postId) {
-    const ok = window.confirm(
-      "Delete this post? This cannot be undone."
-    );
+    const ok = window.confirm("Delete this post? This cannot be undone.");
     if (!ok) return;
 
     setBusyId(postId);
@@ -264,7 +229,8 @@ export default function Home() {
             return (
               <article
                 key={post._id}
-                className="break-inside-avoid mb-6 inline-block w-full bg-white border border-gray-200 rounded-2xl p-4 shadow-sm"
+                onClick={() => navigate("/post/" + post._id)}
+                className="break-inside-avoid mb-6 inline-block w-full bg-white border border-gray-200 rounded-2xl p-4 shadow-sm cursor-pointer hover:shadow-md transition-shadow"
               >
                 {post.imageUrl && (
                   <div className="w-full overflow-hidden rounded-xl mb-3 bg-gray-100">
@@ -292,7 +258,10 @@ export default function Home() {
                     </span>
                     {isOwner && (
                       <button
-                        onClick={() => handleDelete(post._id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(post._id);
+                        }}
                         disabled={isBusy}
                         title="Delete"
                         className="text-gray-400 hover:text-red-600 disabled:opacity-50 text-lg leading-none"
@@ -330,7 +299,10 @@ export default function Home() {
                   </div>
                   {isOwner && (
                     <button
-                      onClick={() => handleResolve(post._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleResolve(post._id);
+                      }}
                       disabled={isBusy}
                       title="Mark as resolved"
                       className="text-gray-400 hover:text-green-600 disabled:opacity-50 text-xl leading-none"

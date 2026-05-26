@@ -22,7 +22,14 @@ router.post("/register", async function (req, res) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    const existing = await User.findOne({ email: email.toLowerCase() });
+    const normalizedEmail = email.toLowerCase().trim();
+    if (!normalizedEmail.endsWith("@myhunter.cuny.edu")) {
+      return res.status(400).json({
+        message: "Only @myhunter.cuny.edu emails are allowed",
+      });
+    }
+
+    const existing = await User.findOne({ email: normalizedEmail });
     if (existing) {
       return res.status(400).json({ message: "Email is already registered" });
     }
@@ -32,7 +39,7 @@ router.post("/register", async function (req, res) {
 
     const newUser = new User({
       name: name.trim(),
-      email: email.toLowerCase().trim(),
+      email: normalizedEmail,
       password: hashed,
     });
     await newUser.save();

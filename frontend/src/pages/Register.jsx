@@ -21,6 +21,10 @@ export default function Register() {
       setError("Please fill in all fields.");
       return;
     }
+    if (!email.toLowerCase().trim().endsWith("@myhunter.cuny.edu")) {
+      setError("You must use your @myhunter.cuny.edu email to register.");
+      return;
+    }
     if (password !== confirm) {
       setError("Passwords do not match.");
       return;
@@ -79,11 +83,14 @@ export default function Register() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
+            placeholder="you@myhunter.cuny.edu"
             autoComplete="email"
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+          <p className="text-xs text-gray-500 mt-1">
+            Only @myhunter.cuny.edu emails are allowed.
+          </p>
         </label>
 
         <label className="block mb-3">

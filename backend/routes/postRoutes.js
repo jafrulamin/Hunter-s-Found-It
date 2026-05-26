@@ -33,7 +33,12 @@ router.get("/:id", async function (req, res) {
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
-    return res.json(post);
+    const postObj = post.toObject();
+    const owner = await User.findById(post.userId);
+    if (owner) {
+      postObj.userEmail = owner.email;
+    }
+    return res.json(postObj);
   } catch (err) {
     console.log("get post error:", err.message);
     return res.status(500).json({ message: "Server error" });
@@ -42,8 +47,7 @@ router.get("/:id", async function (req, res) {
 
 router.post("/", auth, async function (req, res) {
   try {
-    const { type, title, description, location, anonymous, imageUrl } =
-      req.body;
+    const { type, title, description, location, imageUrl } = req.body;
 
     if (!type || !title || !description) {
       return res
@@ -56,16 +60,13 @@ router.post("/", auth, async function (req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const displayName = anonymous ? "Anonymous" : user.name;
-
     const newPost = new Post({
       type: type,
       title: title.trim(),
       description: description.trim(),
       location: location ? location.trim() : "",
       userId: user._id,
-      userName: displayName,
-      anonymous: !!anonymous,
+      userName: user.name,
       imageUrl: imageUrl || "",
       resolved: false,
     });

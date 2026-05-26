@@ -2,40 +2,7 @@ import { useEffect, useState, useMemo, useContext } from "react";
 import { useNavigate, Link } from "react-router";
 import apiFetch from "../api";
 import { AuthContext } from "../context/AuthContext";
-
-function initials(name) {
-  if (!name) return "?";
-  const parts = name.trim().split(" ");
-  if (!parts[0]) return "?";
-  const first = parts[0][0] || "";
-  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
-  return (first + last).toUpperCase();
-}
-
-function timeAgo(createdAt) {
-  if (!createdAt) return "";
-  const ms = new Date(createdAt).getTime();
-  const diff = Date.now() - ms;
-  if (diff < 60000) return "just now";
-  const minutes = Math.floor(diff / 60000);
-  if (minutes < 60) return minutes + "m ago";
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return hours + "h ago";
-  const days = Math.floor(hours / 24);
-  if (days < 7) return days + "d ago";
-  const weeks = Math.floor(days / 7);
-  if (weeks < 5) return weeks + "w ago";
-  const months = Math.floor(days / 30);
-  if (months < 12) return months + "mo ago";
-  const years = Math.floor(days / 365);
-  return years + "y ago";
-}
-
-function cloudinaryThumb(url) {
-  if (!url) return "";
-  if (url.indexOf("/upload/") === -1) return url;
-  return url.replace("/upload/", "/upload/f_auto,q_auto,c_fill,w_900,h_500/");
-}
+import { initials, timeAgo, cloudinaryThumb } from "../utils";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -240,8 +207,9 @@ export default function Profile() {
             return (
               <article
                 key={post._id}
+                onClick={() => navigate("/post/" + post._id)}
                 className={
-                  "break-inside-avoid mb-6 inline-block w-full bg-white border border-gray-200 rounded-2xl p-4 shadow-sm " +
+                  "break-inside-avoid mb-6 inline-block w-full bg-white border border-gray-200 rounded-2xl p-4 shadow-sm cursor-pointer hover:shadow-md transition-shadow " +
                   (post.resolved ? "opacity-70" : "")
                 }
               >
@@ -295,12 +263,16 @@ export default function Profile() {
                   <div className="flex items-center gap-2">
                     <Link
                       to={"/edit-post/" + post._id}
+                      onClick={(e) => e.stopPropagation()}
                       className="text-sm text-blue-600 hover:underline"
                     >
                       Edit
                     </Link>
                     <button
-                      onClick={() => handleToggleResolved(post)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleToggleResolved(post);
+                      }}
                       disabled={isBusy}
                       className={
                         "text-sm hover:underline disabled:opacity-50 " +
@@ -312,7 +284,10 @@ export default function Profile() {
                       {post.resolved ? "Unresolve" : "Resolve"}
                     </button>
                     <button
-                      onClick={() => handleDelete(post._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(post._id);
+                      }}
                       disabled={isBusy}
                       className="text-sm text-red-600 hover:underline disabled:opacity-50"
                     >
